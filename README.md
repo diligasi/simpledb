@@ -1,1 +1,3 @@
-Só testando integração com DB
+Testando integração com DB
+
+Fazer inscrições e lista-las.
