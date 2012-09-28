@@ -11,17 +11,16 @@ namespace Web.Controllers
     public class InscricaoController : Controller
     {
         private readonly Context _Context = new Context();
+
         //
         // GET: /Inscricao/
-
-        public ActionResult Index()
+         public ActionResult Index()
         {
             return View(_Context.Inscricoes);
         }
 
         //
         // GET: /Inscricao/Details/5
-
         public ActionResult Details(int id)
         {
             return View();
@@ -29,7 +28,6 @@ namespace Web.Controllers
 
         //
         // GET: /Inscricao/Create
-
         public ActionResult Create()
         {
             return View(new Inscricao());
@@ -37,29 +35,30 @@ namespace Web.Controllers
 
         //
         // POST: /Inscricao/Create
-
         [HttpPost]
         public ActionResult Create(Inscricao collection)
         {
-            try
+            if (collection != null)
             {
-                if (collection != null)
-                {
-                    _Context.Inscricoes.Add(collection);
-                    _Context.SaveChanges();
-                }
+                _Context.Inscricoes.Add(collection);
+                _Context.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("TelaConfirmacao", new { inscricaoComSucesso = true });
             }
-            catch
-            {
+
+            return View(collection);
+        }
+
+        public ActionResult TelaConfirmacao(bool inscricaoComSucesso)
+        {
+            if (inscricaoComSucesso == true)
                 return View();
-            }
+            else
+                return RedirectToAction("Create");
         }
         
         //
         // GET: /Inscricao/Edit/5
- 
         public ActionResult Edit(int id)
         {
             return View();
@@ -67,7 +66,6 @@ namespace Web.Controllers
 
         //
         // POST: /Inscricao/Edit/5
-
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -85,7 +83,6 @@ namespace Web.Controllers
 
         //
         // GET: /Inscricao/Delete/5
- 
         public ActionResult Delete(int id)
         {
             return View();
@@ -93,7 +90,6 @@ namespace Web.Controllers
 
         //
         // POST: /Inscricao/Delete/5
-
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
